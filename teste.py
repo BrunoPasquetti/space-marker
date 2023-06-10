@@ -8,13 +8,23 @@ pygame.display.set_caption("Space Do Bruno")
 tamanho = (800, 500)
 tela = pygame.display.set_mode(tamanho)
 clock = pygame.time.Clock()
-fundo = pygame.image.load("bg.jpg")
-branco = (255, 255, 255)
-pygame.mixer.music.load("Space_Machine_Power.mp3")
-pygame.mixer.music.play(-1)
-icone = pygame.image.load("space.png")
-pygame.display.set_icon(icone)
+try:
+    fundo = pygame.image.load("bg.jpg")
+except pygame.error:
+    fundo = pygame.Surface(tamanho)
+    fundo.fill((0,0,0))
 
+branco = (255, 255, 255)
+try:
+    pygame.mixer.music.load("Space_Machine_Power.mp3")
+    pygame.mixer.music.play(-1)
+except pygame.error:
+    print("Erro ao carregar o arquivo de áudio")
+try:
+    icone = pygame.image.load("space.png")
+    pygame.display.set_icon(icone)
+except pygame.error:
+    print("Erro ao carregar o icone")
 estrelas = []
 
 fonte = pygame.font.Font(None, 20)
@@ -70,11 +80,13 @@ while running:
         texto_rect = texto_superficie.get_rect()
         texto_rect.center = (pos[0], pos[1] - 20)
         tela.blit(texto_superficie, texto_rect)
+
     if len(estrelas) >= 2:
         for i in range(len(estrelas) - 1):
             ponto_atual = estrelas[i][0]
             proximo_ponto = estrelas[i + 1][0]
             pygame.draw.line(tela, branco, ponto_atual, proximo_ponto)
+
     pygame.display.update()
     clock.tick(60)
 
