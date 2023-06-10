@@ -66,13 +66,15 @@ while running:
 
     for pos, item in estrelas:
         pygame.draw.circle(tela, branco, pos, 3)
-        texto_superficie = fonte.render(
-            item + " - " + str(pos), True, branco
-        )
+        texto_superficie = fonte.render(item + " - " + str(pos), True, branco)
         texto_rect = texto_superficie.get_rect()
         texto_rect.center = (pos[0], pos[1] - 20)
         tela.blit(texto_superficie, texto_rect)
-
+    if len(estrelas) >= 2:
+        for i in range(len(estrelas) - 1):
+            ponto_atual = estrelas[i][0]
+            proximo_ponto = estrelas[i + 1][0]
+            pygame.draw.line(tela, branco, ponto_atual, proximo_ponto)
     pygame.display.update()
     clock.tick(60)
 
